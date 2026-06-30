@@ -80,9 +80,16 @@ body.menu-open{overflow:hidden}
 .socials .sub-col p{margin-bottom:.25rem}
 .menu-meta p:first-child{color:var(--base-400);margin-bottom:1rem}
 
+/* Persistent reveal grid */
+.grid-lines{pointer-events:none;position:fixed;inset:0 var(--page-gutter);z-index:1;opacity:0;clip-path:inset(100% 0 0 0);transition:opacity .8s ease,clip-path 1.4s cubic-bezier(.22,1,.36,1);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 14%,#000 86%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,#000 14%,#000 86%,transparent 100%)}
+.grid-lines.visible{opacity:1;clip-path:inset(0 0 0 0)}
+.grid-lines span{position:absolute;top:0;bottom:0;width:1px;background:rgba(255,255,255,.13)}
+.grid-lines span:nth-child(1){left:16.666%}.grid-lines span:nth-child(2){left:33.333%}.grid-lines span:nth-child(3){left:50%}.grid-lines span:nth-child(4){left:66.666%}.grid-lines span:nth-child(5){left:83.333%}
+body.light-grid .grid-lines span{background:rgba(0,0,0,.12)}
+
 /* Hero */
-.hero{--hero-scroll-progress:0;width:100%;min-height:100svh;padding:var(--page-gutter);position:relative;overflow:hidden}
-.hero .container{border-radius:calc(var(--section-radius)*var(--hero-scroll-progress));min-height:calc(100svh - (var(--page-gutter)*2));background-color:#101010;align-items:flex-end;padding:clamp(6rem,18vh,9rem) clamp(1.5rem,4vw,4rem) clamp(1.5rem,4vw,4rem);display:flex;position:relative;overflow:hidden}
+.hero{--hero-scroll-progress:0;width:100%;height:140svh;padding:0;position:relative;overflow:visible}
+.hero .container{transform:scale(calc(1 - (var(--hero-scroll-progress)*.07)));transform-origin:top center;border-radius:calc(var(--section-radius)*var(--hero-scroll-progress));height:100svh;min-height:100svh;background-color:#101010;align-items:flex-end;padding:clamp(6rem,18vh,9rem) clamp(1.5rem,4vw,4rem) clamp(1.5rem,4vw,4rem);display:flex;position:sticky;top:0;overflow:hidden;will-change:transform,border-radius}
 .hero .hero-img-wrapper{width:100%;height:100%;position:absolute;top:0;left:0}
 .hero .hero-img-wrapper img,.hero .hero-img-wrapper video{object-fit:cover;opacity:1;width:100%;height:100%;scale:1.1}
 .hero .hero-overlay{background-color:#141313a6;width:100%;height:100%;position:absolute;top:0;left:0}
@@ -144,9 +151,15 @@ body.menu-open{overflow:hidden}
 .featured-project-card-description{text-align:left;width:min(75%,34rem);color:var(--base-250)}
 .featured-project-card-img{border-radius:1.5rem;flex:1;min-height:0;overflow:hidden;position:relative;margin:clamp(1rem,2vw,1.5rem) clamp(1rem,2vw,1.5rem) clamp(1rem,2vw,1.5rem) 0}
 .featured-project-card-img img,.featured-project-card-img video{object-fit:cover;width:100%;height:100%;display:block;position:absolute;inset:0}
+.featured-projects{height:460svh}
+.featured-project-card-wrap{will-change:transform,filter;transition:transform .45s cubic-bezier(.22,1,.36,1),filter .45s,opacity .45s}
+.featured-project-card-wrap.fall-behind:not(:last-child){transform:scale(.92) translateY(-2svh);filter:brightness(.62) blur(1px)}
+.featured-project-card-inner{transform-origin:bottom center;will-change:transform,border-radius;box-shadow:0 -28px 80px rgba(0,0,0,.32)}
+.featured-project-card-inner::before,.featured-project-card-inner::after{content:"";pointer-events:none;position:absolute;left:0;right:0;height:5rem;z-index:5;opacity:var(--edge-blur,0);transition:opacity .2s;background:linear-gradient(to bottom,rgba(0,0,0,.75),transparent);backdrop-filter:blur(10px)}
+.featured-project-card-inner::before{top:0}.featured-project-card-inner::after{bottom:0;transform:rotate(180deg)}
 
 /* Spotlight */
-.spotlight-scroll-track{position:relative;height:320vh}
+.spotlight-scroll-track{position:relative;height:560vh}
 .spotlight{position:sticky;top:0;height:100svh;min-height:100svh;z-index:2;background:#000;width:100%;display:flex;align-items:center;justify-content:center;overflow:hidden;padding:var(--page-gutter)}
 .spotlight-inner{width:100%;height:calc(100svh - (var(--page-gutter)*2));border-radius:var(--section-radius);background-color:var(--base-450);position:relative;overflow:hidden;display:flex;align-items:center;justify-content:center}
 .spotlight-bg{position:absolute;inset:0;width:100%;height:100%;z-index:0}
@@ -157,18 +170,19 @@ body.menu-open{overflow:hidden}
 .spotlight-header{color:var(--base-100);position:absolute;top:clamp(1.5rem,4vw,3rem);left:clamp(1.5rem,4vw,3rem);z-index:3;opacity:0;transition:opacity .4s}
 .spotlight-header.visible{opacity:1}
 .spotlight-header p{color:var(--base-300);font-size:.75rem;font-weight:500;font-family:var(--font-mono);text-transform:uppercase;letter-spacing:.08em}
-.spotlight-titles{z-index:3;flex-direction:column;gap:clamp(1.5rem,3vh,2.5rem);width:60%;display:flex;position:relative;padding:clamp(3rem,6vh,6rem) 0;opacity:0;transition:opacity .5s}
+.spotlight-titles{z-index:3;flex-direction:column;gap:clamp(.2rem,1.3vh,1rem);width:100%;display:flex;position:absolute;left:6%;top:50%;padding:0;opacity:0;transition:opacity .5s;will-change:transform}
 .spotlight-titles.visible{opacity:1}
-.spotlight-titles h1{color:var(--base-100);opacity:.3;font-size:clamp(2.2rem,4vw,3.6rem);font-weight:500;line-height:1;letter-spacing:-.04em;transition:opacity .35s}
+.spotlight-titles h1{color:var(--base-100);opacity:.26;font-size:clamp(4.5rem,11vw,10rem);font-weight:500;line-height:.9;letter-spacing:-.075em;transition:opacity .35s}
 .spotlight-titles h1.active{opacity:1}
-.spotlight-img-preview{pointer-events:none;z-index:4;position:absolute;right:clamp(2rem,5vw,6rem);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:.75rem;width:clamp(130px,15vw,200px);opacity:0;transition:opacity .5s}
+.spotlight-img-preview{pointer-events:none;z-index:4;position:absolute;right:clamp(2rem,9vw,8rem);top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:1rem;width:clamp(150px,17vw,230px);opacity:0;transition:opacity .5s;will-change:transform}
 .spotlight-img-preview.visible{opacity:1}
-.spotlight-img-slot{border-radius:.75rem;width:100%;aspect-ratio:4/3;overflow:hidden;opacity:0;transition:opacity .4s,transform .4s;transform:translateY(8px);background:#ffffff18}
-.spotlight-img-slot.active{opacity:1;transform:translateY(0)}
+.spotlight-img-slot{border-radius:.95rem;width:100%;aspect-ratio:4/3;overflow:hidden;opacity:.35;transition:opacity .4s,transform .4s;transform:translateY(8px);background:#ffffff18;box-shadow:0 16px 45px rgba(0,0,0,.35)}
+.spotlight-img-slot.active{opacity:1;transform:translateY(0) scale(1.08)}
 .spotlight-img-slot img,.spotlight-img-slot video{object-fit:cover;width:100%;height:100%}
 .spotlight-intro-text-wrapper{position:absolute;top:50%;left:0;transform:translateY(-50%);width:100%;display:flex;align-items:center;justify-content:center;gap:clamp(1rem,3vw,2rem);z-index:4;pointer-events:none;transition:opacity .4s}
 .spotlight-intro-text{color:rgba(255,255,255,.6);font-size:clamp(2rem,4.5vw,3.5rem);font-weight:400;letter-spacing:-.04em}
-.spotlight-intro-video-wrap{border-radius:.75rem;overflow:hidden;flex-shrink:0;transition:width .4s cubic-bezier(.4,0,.2,1),height .4s cubic-bezier(.4,0,.2,1)}
+.spotlight-intro-video-wrap{border-radius:.75rem;overflow:hidden;flex-shrink:0;transition:width .15s linear,height .15s linear;border:1px solid rgba(255,255,255,.16);box-shadow:0 20px 80px rgba(0,0,0,.45)}
+.spotlight::before{content:"";position:absolute;inset:0;z-index:2;clip-path:ellipse(42% 48% at 50% 50%);background:rgba(255,255,255,.04);opacity:var(--portal-opacity,0);pointer-events:none}.spotlight-intro-text-wrapper.panel-cover .spotlight-intro-text{z-index:0}.spotlight-intro-video-wrap{z-index:2}.spotlight-intro-text{z-index:1}
 .spotlight-intro-video-wrap video,.spotlight-intro-video-wrap img{width:100%;height:100%;object-fit:cover;display:block}
 
 /* Client reviews */
@@ -177,7 +191,7 @@ body.menu-open{overflow:hidden}
 .client-reviews-container>.container{height:auto;padding-top:0}
 .client-reviews-container .client-reviews-header{text-align:center;width:min(100%,48rem);margin:0 auto 1.5rem}
 .client-reviews-container .client-reviews-header h2{color:var(--fg-primary)}
-.reviews-spacer{pointer-events:none;height:120vh}
+.reviews-spacer{pointer-events:none;height:120vh}.reviews-radial-blur{pointer-events:none;position:absolute;left:50%;bottom:-18svh;width:22vw;height:22vw;border-radius:50%;transform:translateX(-50%) scale(var(--blur-scale,0));opacity:var(--blur-opacity,0);background:radial-gradient(ellipse at center,rgba(255,255,255,.95) 0%,rgba(255,255,255,.72) 34%,rgba(255,255,255,0) 70%);filter:blur(22px);z-index:4;transition:transform .12s linear,opacity .12s linear}
 
 /* Client review cards */
 .cr-container{width:100%;height:auto;position:relative;overflow:hidden}
@@ -368,6 +382,8 @@ body.menu-open{overflow:hidden}
     </div>
   </div>
 </div>
+
+<div class="grid-lines" id="gridLines" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
 
 <!-- HERO -->
 <section class="hero">
@@ -627,7 +643,7 @@ body.menu-open{overflow:hidden}
       <div class="spotlight-img-slot" data-preview="rhythm"><img src="https://www.filter.im/optimized/home-premium/posters/rhythm.jpg" alt="Rhythm"></div>
       <div class="spotlight-img-slot" data-preview="duffle"><img src="https://www.filter.im/optimized/home-premium/posters/duffle.jpg" alt="Duffle"></div>
       <div class="spotlight-img-slot" data-preview="hellotraders"><img src="https://www.filter.im/optimized/home-premium/posters/hellotraders.jpg" alt="HelloTrade"></div>
-      <div class="spotlight-img-slot" data-preview="liquid"><img src="https://www.filter.im/optimized/home-premium/posters/liquid-mockup.jpg" alt="Liquid"></div>
+      <div class="spotlight-img-slot moving-discover-card" data-preview="liquid"><img src="https://www.filter.im/optimized/home-premium/posters/liquid-mockup.jpg" alt="Liquid"></div>
     </div>
 
   </div>
@@ -654,10 +670,10 @@ body.menu-open{overflow:hidden}
       <div class="cr-container">
         <div class="cr-track">
           <!-- Review 1 -->
-          <div class="cr-card">
+          <div class="cr-card review-arrival-card">
             <div class="cr-card-img-wrapper">
               <div class="cr-card-img">
-                <img src="https://www.filter.im/optimized/home-premium/posters/sperm-racing.jpg" alt="">
+                <img src="https://www.filter.im/optimized/home-premium/posters/liquid-mockup.jpg" alt="">
               </div>
               <span class="cr-tag">Client Review</span>
             </div>
@@ -735,6 +751,7 @@ body.menu-open{overflow:hidden}
           </div>
         </div>
       </div>
+      <div class="reviews-radial-blur" id="reviewsRadialBlur" aria-hidden="true"></div>
     </section>
     <div class="reviews-spacer" aria-hidden="true"></div>
   </div>
@@ -889,6 +906,63 @@ menuToggle.addEventListener('click', () => {
   document.body.classList.toggle('menu-open', isOpen);
 });
 
+
+// Scroll-driven hero shrink, persistent grid, project cards, and section transitions
+(function() {
+  const clamp01 = value => Math.max(0, Math.min(1, value));
+  const hero = document.querySelector('.hero');
+  const grid = document.getElementById('gridLines');
+  const whatWeDo = document.querySelector('.what-we-do');
+  const projectWraps = [...document.querySelectorAll('.featured-project-card-wrap')];
+  const projectInners = [...document.querySelectorAll('.featured-project-card-inner')];
+  const reviews = document.querySelector('.client-reviews-container');
+  const gallery = document.querySelector('.gallery-callout');
+  const blur = document.getElementById('reviewsRadialBlur');
+
+  function updateScrollEffects() {
+    const vh = window.innerHeight || 1;
+    if (hero) {
+      const heroProgress = clamp01(window.scrollY / Math.min(260, vh * .32));
+      hero.style.setProperty('--hero-scroll-progress', heroProgress.toFixed(3));
+    }
+
+    if (grid && whatWeDo) {
+      const r = whatWeDo.getBoundingClientRect();
+      grid.classList.toggle('visible', r.top < vh * .72);
+    }
+
+    projectWraps.forEach((wrap, index) => {
+      const rect = wrap.getBoundingClientRect();
+      const raw = clamp01((vh - rect.top) / vh);
+      const grow = clamp01((raw - .08) / .82);
+      const inner = projectInners[index];
+      const y = (1 - grow) * 34;
+      const sx = .62 + grow * .38;
+      const sy = .36 + grow * .64;
+      if (inner) {
+        inner.style.transform = `translateY(${y}svh) scale(${sx}, ${sy})`;
+        inner.style.borderRadius = `${(1 - grow) * 2.25}rem`;
+        inner.style.setProperty('--edge-blur', String(grow > .08 && grow < .98 ? .9 : 0));
+      }
+      const next = projectWraps[index + 1];
+      const nextRect = next && next.getBoundingClientRect();
+      wrap.classList.toggle('fall-behind', Boolean(nextRect && nextRect.top < vh * .84));
+    });
+
+    if (reviews && gallery && blur) {
+      const gr = gallery.getBoundingClientRect();
+      const p = clamp01((vh - gr.top) / (vh * .85));
+      blur.style.setProperty('--blur-scale', (p * 8).toFixed(3));
+      blur.style.setProperty('--blur-opacity', String(p > .02 ? Math.min(1, p * 1.45).toFixed(3) : 0));
+      document.body.classList.toggle('light-grid', gr.top < vh * .5);
+    }
+  }
+
+  window.addEventListener('scroll', updateScrollEffects, { passive: true });
+  window.addEventListener('resize', updateScrollEffects);
+  updateScrollEffects();
+})();
+
 // Client reviews horizontal drag scroll
 const crContainer = document.querySelector('.cr-container');
 const crTrack = document.querySelector('.cr-track');
@@ -949,31 +1023,48 @@ if (crContainer && crTrack) {
     const maxScroll = trackH - vh;
     const progress = Math.max(0, Math.min(1, scrolled / maxScroll));
 
-    const INTRO_END = 0.12;
+    const INTRO_END = 0.34;
+    const DISCOVER_END = 0.86;
 
     if (progress < INTRO_END) {
       const p = progress / INTRO_END;
       intro.style.opacity = '1';
       intro.style.pointerEvents = 'none';
+      intro.classList.toggle('panel-cover', p > .72);
       header.classList.remove('visible');
       titles.classList.remove('visible');
       preview.classList.remove('visible');
+      document.getElementById('spotlightSection').style.setProperty('--portal-opacity', '0');
 
-      const w = 7 + p * (55 - 7);
-      const h = 5.25 + p * (35 - 5.25);
-      const r = 0.75 - p * 0.75;
-      introVideo.style.width = w + 'rem';
-      introVideo.style.height = h + 'rem';
+      const w = 0 + p * 64;
+      const h = 0 + p * 82;
+      const r = 0.9 - p * 0.5;
+      introVideo.style.width = Math.max(0.1, w) + 'vw';
+      introVideo.style.height = Math.max(0.1, h) + 'vh';
       introVideo.style.borderRadius = r + 'rem';
+      introVideo.style.opacity = String(Math.min(1, p * 1.8));
+      intro.querySelectorAll('.spotlight-intro-text').forEach((el, i) => {
+        el.style.transform = `translateX(${(i === 0 ? -1 : 1) * p * 18}vw)`;
+        el.style.opacity = String(1 - Math.max(0, p - .72) / .28);
+      });
     } else {
-      intro.style.opacity = '0';
+      const discoverProgress = Math.min(1, (progress - INTRO_END) / Math.max(.001, DISCOVER_END - INTRO_END));
+      intro.style.opacity = String(1 - Math.min(1, discoverProgress * 4));
       header.classList.add('visible');
       titles.classList.add('visible');
       preview.classList.add('visible');
+      document.getElementById('spotlightSection').style.setProperty('--portal-opacity', String(.25 + discoverProgress * .75));
 
-      const clientProgress = (progress - INTRO_END) / (1 - INTRO_END);
-      const idx = Math.min(CLIENTS.length - 1, Math.floor(clientProgress * CLIENTS.length));
+      const idx = Math.min(CLIENTS.length - 1, Math.floor(discoverProgress * CLIENTS.length));
       setActiveClient(idx);
+      titles.style.transform = `translateY(calc(-50% - ${discoverProgress * 46}vh))`;
+      preview.style.transform = `translateY(calc(-50% + ${Math.sin(discoverProgress * Math.PI * 2) * 13}vh)) rotate(${discoverProgress * -10}deg)`;
+
+      if (progress > DISCOVER_END) {
+        const exit = (progress - DISCOVER_END) / (1 - DISCOVER_END);
+        preview.style.transform = `translate(${ -exit * 24}vw, calc(-50% + ${exit * 38}vh)) scale(${1 + exit * .45})`;
+        preview.style.opacity = String(1 - exit * .6);
+      }
     }
   }
 
